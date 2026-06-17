@@ -1,2 +1,0 @@
-El codigo Quad1_X_T1.py es un codigo que genera y controla las dinamicas de X y Theta acoplada como dos subsitemas 2x2, con la representacion de u_x = g*theta + (error*Kpt + D_error*Kdt).
-Tambien al correr este codigo genera dos archivos .csv con los datos guardados de X y Theta (estos se usan para generar las graficas comparativas entre simulik y nengo)
