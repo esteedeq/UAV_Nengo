@@ -1,0 +1,159 @@
+# Quadrotor_model_2020_PID_R2025a
+
+
+Source model: `Quadrotor_model_2020.slx` and `Values_Quadrotor_model.m`.
+
+Purpose: convert the original 2020 quadrotor PD controller into a PID controller with the same reference schedule and same Victor plant equations.
+
+Generated Simulink model:
+
+```text
+models/Quadrotor_model_2020_PID_R2025a.slx
+```
+
+The reference schedule follows the source Python/MATLAB support code:
+
+$$
+x_d=\sin(0.1t),\quad \dot{x}_d=0.1\cos(0.1t),
+$$
+
+$$
+y_d=\sin(0.1t),\quad \dot{y}_d=0.1\cos(0.1t).
+$$
+
+The altitude reference is:
+
+$$
+z_d(t)=\begin{cases}
+t/10, & 0\le t<10,\\
+1, & 10\le t<20,\\
+1-0.05(t-20), & 20\le t<30,\\
+0.5, & t\ge 30.
+\end{cases}
+$$
+
+The PD gains from `Values_Quadrotor_model.m` are preserved as the proportional and derivative PID terms. New integral gains are added in `params/victor_pid_params.m`.
+
+For each controlled channel, the PD law was converted to PID by adding an integral state:
+
+$$
+I_j(k+1)=\mathrm{clip}\left(I_j(k)+\Delta t\,e_j(k),-I_{j,\max},I_{j,\max}\right).
+$$
+
+Outer-loop position PID:
+
+$$
+e_x=x_d-x,\quad \dot{e}_x=\dot{x}_d-\dot{x},
+$$
+
+$$
+a_x=K_{p,x}e_x+K_{i,x}I_x+K_{d,x}\dot{e}_x,
+$$
+
+$$
+e_y=y_d-y,\quad \dot{e}_y=\dot{y}_d-\dot{y},
+$$
+
+$$
+a_y=K_{p,y}e_y+K_{i,y}I_y+K_{d,y}\dot{e}_y,
+$$
+
+$$
+e_z=z_d-z,\quad \dot{e}_z=-\dot{z},
+$$
+
+$$
+u_z=K_{p,z}e_z+K_{i,z}I_z-K_{d,z}\dot{z}.
+$$
+
+Desired attitude and thrust:
+
+$$
+\theta_d=\mathrm{clip}\left(\operatorname{atan2}(a_x,g),-\theta_{\max},\theta_{\max}\right),
+$$
+
+$$
+\phi_d=\mathrm{clip}\left(\operatorname{atan2}(-a_y\cos\theta,g),-\phi_{\max},\phi_{\max}\right),
+$$
+
+$$
+u=\mathrm{clip}\left(\frac{mg+u_z}{\max(\cos\theta\cos\phi,d_{\min})},u_{\min},u_{\max}\right).
+$$
+
+Inner-loop attitude PID:
+
+$$
+\tau_\psi=K_{p,\psi}e_\psi+K_{i,\psi}I_\psi+K_{d,\psi}\dot{e}_\psi,
+$$
+
+$$
+\tau_\theta=K_{p,\theta}(\theta_d-\theta)+K_{i,\theta}I_\theta-K_{d,\theta}\dot{\theta},
+$$
+
+$$
+\tau_\phi=K_{p,\phi}(\phi_d-\phi)+K_{i,\phi}I_\phi-K_{d,\phi}\dot{\phi}.
+$$
+
+The state order is:
+
+```text
+X = [x, dx, y, dy, z, dz, psi, dpsi, theta, dtheta, phi, dphi]^T
+```
+
+The PID-controlled quadrotor dynamics use the Victor model:
+
+$$
+\dot{x}=\dot{x},
+$$
+
+$$
+\ddot{x}=\frac{u}{m}\left(\sin\phi\sin\psi+\cos\phi\cos\psi\sin\theta\right),
+$$
+
+$$
+\dot{y}=\dot{y},
+$$
+
+$$
+\ddot{y}=\frac{u}{m}\left(\cos\phi\sin\theta\sin\psi-\cos\psi\sin\phi\right),
+$$
+
+$$
+\dot{z}=\dot{z},
+$$
+
+$$
+\ddot{z}=\frac{u\cos\theta\cos\phi}{m}-g,
+$$
+
+$$
+\dot{\psi}=\dot{\psi},\quad \ddot{\psi}=\tau_\psi,
+$$
+
+$$
+\dot{\theta}=\dot{\theta},\quad \ddot{\theta}=\tau_\theta,
+$$
+
+$$
+\dot{\phi}=\dot{\phi},\quad \ddot{\phi}=\tau_\phi.
+$$
+
+The plant block advances this model with RK4:
+
+$$
+X_{k+1}=X_k+\frac{\Delta t}{6}(k_1+2k_2+2k_3+k_4),
+$$
+
+where each $k_i$ evaluates the same continuous dynamics with the current command held constant over the sample.
+
+## Simulink Implementation Note
+
+The generated Simulink model uses two explicit discrete memory blocks:
+
+```text
+State Memory         stores X(k)
+PID Integral Memory  stores I(k)
+```
+
+The controller block receives the current integral state and outputs the clipped next integral state. Parameters are supplied through a `Parameter Vector` Constant block built from `params/victor_pid_params.m`. Edit that parameter file, then rebuild the models to propagate changed gains or limits.
+
