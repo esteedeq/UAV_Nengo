@@ -1,0 +1,7 @@
+# Heavy, regenerable PID R2025a simulation outputs.
+# Keep the lightweight, human-readable artifacts (PNGs, *_metrics.csv,
+# *_tables.mat, PID_ANALYSIS_REPORT.md); skip the large raw data, which is
+# reproducible from the committed models/params/build scripts.
+Matlab/Simulations_Quad_results/**/*_timeseries.csv
+Matlab/Simulations_Quad_results/**/*_simout.mat
+Matlab/Simulations_Quad_results/**/*_signals.mat
