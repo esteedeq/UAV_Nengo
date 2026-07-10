@@ -26,7 +26,7 @@ Sphi=pi*70/180 #pi*50/180
 #Ganancias
 kpx=8.8#2.2. 6.5, 5.8
 kdx=0.1 #0.2
-kix = 0.0 #0.2
+kix = 0.3 #0.2
 
 kpt=90 #75.5
 kdt=12.0 #20, 10
@@ -41,7 +41,7 @@ kdphi=12 #Tenia 55, 8
 
 kpy=10 #Tenia 3, 30
 kdy=4.2 #Tenia 2, 8
-kiy = 0.3 #
+kiy = 0.7 #
 #
 
 #LIMITES EN LOS EJES DE LA GRAFICA
@@ -136,6 +136,10 @@ with model:
         return -g*tan(x)
     nengo.Connection(At[0],U_x,function=RetroTheta_X) # -g tan(A[0])
     nengo.Connection(U_x,Gx,function=None,synapse=None)
+    # Conecxion final de u_x a B en la dinamica de X
+    # def upsilon_x(x): 
+    #     return -g*tan(x)
+    # nengo.Connection(At[0],Gx,function=upsilon_x,synapse=None)
     #################################################################################
 
 
