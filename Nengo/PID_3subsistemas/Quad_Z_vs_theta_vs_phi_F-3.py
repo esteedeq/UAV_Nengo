@@ -25,11 +25,11 @@ Sy=5
 Sphi=pi*70/180 #pi*50/180
 #Ganancias
 kpx=8.8#2.2. 6.5, 5.8
-kdx=0.0 #0.2
-kix = 0.0 #0.2
+kdx=0.1 #0.2
+kix = 0.1 #0.2
 
 kpt=90 #75.5
-kdt=12.1 #20, 10
+kdt=12.0 #20, 10
 
 kpz=40
 kdz=5
@@ -111,8 +111,8 @@ with model:
     
     #Error en theta
     Err_t=nengo.Ensemble(n_neurons=200,dimensions=1,radius=0.1)
-    nengo.Connection(At[0],Err_t,synapse=E_syn)
-    nengo.Connection(En_ref_t,Err_t,synapse=E_syn,transform=-1)
+    nengo.Connection(At[0],Err_t,synapse=E_syn, transform=1)
+    nengo.Connection(En_ref_t,Err_t,synapse=E_syn, transform=-1)
 
     #Derivada del error   
     d_ref_t=nengo.Ensemble(n_neurons=200,dimensions=1,radius=1)
@@ -264,13 +264,16 @@ with model:
     def fz_fun(x):
         return [x[1]*t_syn,0]+x 
     def gz_fun(x):
-        return [0,((x[0]*cos(x[1])*cos(x[2]))/m -g)*t_syn]
-    nengo.Connection(Gz,CC[0])
-    nengo.Connection(CC,Fz,synapse=t_syn,function=gz_fun)
+        return [0,x[0]*t_syn]
+    def upsilon_z(x):
+        return (-x[0]*cos(0)*cos(0))/m +g #(-x[0]*cos(x[1])*cos(x[2]))/m +g 
+    nengo.Connection(CC, Gz, function=upsilon_z)
+    #nengo.Connection(Gz,CC[0])
+    nengo.Connection(Gz,Fz,synapse=t_syn,function=gz_fun)
     nengo.Connection(Fz,Fz,synapse=t_syn,function=fz_fun)
     
      #Referencia
-    ref_z=nengo.Node(lambda x, k=1, centro=4: 3/ (1 + np.exp(-k * (x - centro))))
+    ref_z=nengo.Node(lambda x, k=1, centro=4: -3/ (1 + np.exp(-k * (x - centro))))
     En_refz=nengo.Ensemble(n_neurons=200,dimensions=1,radius=Sz,neuron_type=nengo.Direct())
     nengo.Connection(ref_z,En_refz)
     
@@ -295,28 +298,37 @@ with model:
     
     
    
-    # ########### Eq. (7)
-    # u_z=nengo.Ensemble(n_neurons=100,dimensions=1,radius=28.5)
-    # nengo.Connection(Err_z,u_z,transform=kpz)
-    # nengo.Connection(D_Err_z,u_z,transform=kdz)
-    # nengo.Connection(In_Err_z,u_z,transform=1)
+    ########### Eq. (7)
+    u_z=nengo.Ensemble(n_neurons=300,dimensions=1,radius=28.5)
+    nengo.Connection(Err_z,u_z,transform=kpz)
+    nengo.Connection(D_Err_z,u_z,transform=kdz)
+    nengo.Connection(In_Err_z,u_z,transform=1)
+
+    u=nengo.Ensemble(n_neurons=500,dimensions=3,neuron_type=nengo.Direct())
+    nengo.Connection(u_z,u[0])
+    nengo.Connection(Aphi[0],u[1])
+    nengo.Connection(At[0],u[2])
+    ########### Eq. (6)
+    def u_fun(x): 
+        return (x[0]+g)*m/(cos(0)*cos(0)) #(x[0]+g)*m/(cos(x[1])*cos(x[2]))
+    nengo.Connection(u,CC[0],function=u_fun,synapse=None)
 
     
-    #Control, para la obtencion de u
-    def u_fun(x): 
-        return x[0]/(cos(x[1])*cos(x[2]))
+    # #Control, para la obtencion de u
+    # def u_fun(x): 
+    #     return x[0]/(cos(x[1])*cos(x[2]))
    
-    U=nengo.Ensemble(n_neurons=100,dimensions=1,radius=28.5)
-    nengo.Connection(G,U,transform=m)
-    nengo.Connection(Err_z,U,transform=-kpz)
-    nengo.Connection(D_Err_z,U,transform=-kdz)
-    nengo.Connection(In_Err_z,U,transform=1)
+    # U=nengo.Ensemble(n_neurons=500,dimensions=1,radius=28.5)
+    # nengo.Connection(G,U,transform=m)
+    # nengo.Connection(Err_z,U,transform=-kpz)
+    # nengo.Connection(D_Err_z,U,transform=-kdz)
+    # nengo.Connection(In_Err_z,U,transform=1)
 
-    CC2=nengo.Ensemble(n_neurons=200,dimensions=3,neuron_type=nengo.Direct())
-    nengo.Connection(U,CC2[0])
-    nengo.Connection(Aphi[0],CC2[1])
-    nengo.Connection(At[0],CC2[2])
-    nengo.Connection(CC2,Gz,function=u_fun,synapse=None)
+    # CC2=nengo.Ensemble(n_neurons=200,dimensions=3,neuron_type=nengo.Direct())
+    # nengo.Connection(U,CC2[0])
+    # nengo.Connection(Aphi[0],CC2[1])
+    # nengo.Connection(At[0],CC2[2])
+    # nengo.Connection(CC2,Gz,function=u_fun,synapse=None)
     
     #Simulacion y
     Fy_p=nengo.Probe(Fy,synapse=t_syn)
@@ -334,7 +346,7 @@ with model:
     Rz_p=nengo.Probe(En_refz,synapse=t_syn)
     Erz_p=nengo.Probe(Err_z,synapse=t_syn)
     DErr_z=nengo.Probe(D_Err_z,synapse=t_syn)
-    U_p=nengo.Probe(U,synapse=t_syn)
+    U_p=nengo.Probe(u,synapse=t_syn)
     Gz_p=nengo.Probe(Gz,synapse=t_syn)
     #Simulacion x theta 
     Fx_p=nengo.Probe(Fx,synapse=t_syn)
@@ -484,18 +496,18 @@ with model:
 
 
     
-    Er_data=sim.data[Erz_p]
-    DEr_data=sim.data[DErr_z]
-    U_data=sim.data[U_p]
-    m_Er=max(Er_data)
-    m_dEr=max(DEr_data)
-    m_U=max(U_data)
-    print("El error maximo es :",m_Er)
-    print("La derivada del error maxima es:", m_dEr)
-    print("El empuje maximo es:",m_U)
-    #Exportacion de datos a csv 
-    data = sim.data[Fz_p]
-    export_data = np.column_stack((t, data))
+    # Er_data=sim.data[Erz_p]
+    # DEr_data=sim.data[DErr_z]
+    # #U_data=sim.data[U_p]
+    # m_Er=max(Er_data)
+    # m_dEr=max(DEr_data)
+    # #m_U=max(U_data)
+    # print("El error maximo es :",m_Er)
+    # print("La derivada del error maxima es:", m_dEr)
+    # print("El empuje maximo es:",m_U)
+    # #Exportacion de datos a csv 
+    # data = sim.data[Fz_p]
+    # export_data = np.column_stack((t, data))
 
     np.savetxt('simulink_data_z.csv', 
                export_data, 
