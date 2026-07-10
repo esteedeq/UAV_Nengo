@@ -26,14 +26,14 @@ Sphi=pi*70/180 #pi*50/180
 #Ganancias
 kpx=8.8#2.2. 6.5, 5.8
 kdx=0.1 #0.2
-kix = 0.1 #0.2
+kix = 0.0 #0.2
 
 kpt=90 #75.5
 kdt=12.0 #20, 10
 
 kpz=40
 kdz=5
-kiz=0
+kiz=0.5
 
 kpphi=90 #Tenia 130, 75
 kdphi=12 #Tenia 55, 8
@@ -41,7 +41,7 @@ kdphi=12 #Tenia 55, 8
 
 kpy=10 #Tenia 3, 30
 kdy=4.2 #Tenia 2, 8
-kiy = 0.0 #
+kiy = 0.3 #
 #
 
 #LIMITES EN LOS EJES DE LA GRAFICA
@@ -163,8 +163,8 @@ with model:
     
     #Errores en y
     Err_y=nengo.Ensemble(n_neurons=200,dimensions=1,radius=Sy)
-    nengo.Connection(Fy[0],Err_y,synapse=E_syn)
-    nengo.Connection(En_refy,Err_y,transform=-1,synapse=E_syn)
+    nengo.Connection(Fy[0],Err_y,synapse=E_syn, transform=-1)
+    nengo.Connection(En_refy,Err_y,transform=1,synapse=E_syn)
     #Derivada del error en  y
     d_ref_y=nengo.Ensemble(n_neurons=200,dimensions=1,radius=Sy)
     nengo.Connection(Err_y,d_ref_y,synapse=E_syn,transform=20)
@@ -172,12 +172,12 @@ with model:
 
     # #Integral del error en y
     In_Err_y = nengo.Ensemble(n_neurons=200, dimensions=1, radius=Sy*2)
-    nengo.Connection(Err_y, In_Err_y, transform= -kiy, synapse=E_syn)
+    nengo.Connection(Err_y, In_Err_y, transform= kiy, synapse=E_syn)
     nengo.Connection(In_Err_y, In_Err_y,transform=1, synapse=E_syn)
 
     U_y=nengo.Ensemble(n_neurons=500,dimensions=1,radius=Sy*2)
-    nengo.Connection(Err_y,U_y,transform=-kpy)
-    nengo.Connection(d_ref_y,U_y,transform=-kdy)
+    nengo.Connection(Err_y,U_y,transform=kpy)
+    nengo.Connection(d_ref_y,U_y,transform=kdy)
     nengo.Connection(In_Err_y,U_y,transform=1)
     
     nengo.Connection(U_y,Gy,function=None,synapse=None)
@@ -266,7 +266,7 @@ with model:
     def gz_fun(x):
         return [0,x[0]*t_syn]
     def upsilon_z(x):
-        return (-x[0]*cos(0)*cos(0))/m +g #(-x[0]*cos(x[1])*cos(x[2]))/m +g 
+        return (-x[0]*cos(0)*cos(0))/m +g 
     nengo.Connection(CC, Gz, function=upsilon_z)
     #nengo.Connection(Gz,CC[0])
     nengo.Connection(Gz,Fz,synapse=t_syn,function=gz_fun)
@@ -293,7 +293,7 @@ with model:
 
     # #Integral del error en y
     In_Err_z = nengo.Ensemble(n_neurons=200, dimensions=1, radius=Sy*2)
-    nengo.Connection(Err_z, In_Err_z, transform= -kiz, synapse=E_syn)
+    nengo.Connection(Err_z, In_Err_z, transform= kiz, synapse=E_syn)
     nengo.Connection(In_Err_z, In_Err_z,transform=1, synapse=E_syn)
     
     
@@ -310,25 +310,9 @@ with model:
     nengo.Connection(At[0],u[2])
     ########### Eq. (6)
     def u_fun(x): 
-        return (x[0]+g)*m/(cos(0)*cos(0)) #(x[0]+g)*m/(cos(x[1])*cos(x[2]))
+        return (x[0]+g)*m/(cos(0)*cos(0))
     nengo.Connection(u,CC[0],function=u_fun,synapse=None)
 
-    
-    # #Control, para la obtencion de u
-    # def u_fun(x): 
-    #     return x[0]/(cos(x[1])*cos(x[2]))
-   
-    # U=nengo.Ensemble(n_neurons=500,dimensions=1,radius=28.5)
-    # nengo.Connection(G,U,transform=m)
-    # nengo.Connection(Err_z,U,transform=-kpz)
-    # nengo.Connection(D_Err_z,U,transform=-kdz)
-    # nengo.Connection(In_Err_z,U,transform=1)
-
-    # CC2=nengo.Ensemble(n_neurons=200,dimensions=3,neuron_type=nengo.Direct())
-    # nengo.Connection(U,CC2[0])
-    # nengo.Connection(Aphi[0],CC2[1])
-    # nengo.Connection(At[0],CC2[2])
-    # nengo.Connection(CC2,Gz,function=u_fun,synapse=None)
     
     #Simulacion y
     Fy_p=nengo.Probe(Fy,synapse=t_syn)
