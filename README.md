@@ -11,7 +11,7 @@ In this work, we:
 ## 2. Dynamic Modeling of the Coaxial Hexarotor
 In this section, the dynamics of the hexarotor depicted in **Figure 1** are modeled and represented using SNNs. 
 
-[dinamica_hexa3.pdf](https://github.com/user-attachments/files/32489715/dinamica_hexa3.pdf)
+[Coaxial hexarotor.pdf](https://github.com/user-attachments/files/32489715/dinamica_hexa3.pdf)
 
 <img width="5528" height="3915" alt="dinamica_hexa3_pages-to-jpg-0001" src="https://github.com/user-attachments/assets/5a04ffcb-dc9e-4a79-b67d-890c4c5388da" />
 
