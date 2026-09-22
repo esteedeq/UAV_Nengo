@@ -143,9 +143,16 @@ Comparison of translational positions and attitude angles.
 
 [fig01_states_v5_rad.pdf](https://github.com/user-attachments/files/32490202/fig01_states_v5_rad.pdf)
 
+<img width="925" height="1124" alt="fig01_states_v5_rad_page-0001" src="https://github.com/user-attachments/assets/7ab596bb-09cb-4d4f-909c-33d5d97584ce" />
+
+
 
 ### 2. Control Commands
 Total thrust $u$, virtual translational commands $u_x$ and $u_y$, and normalized attitude commands $u_\psi$, $u_\theta$, and $u_\phi$.
+
+<img width="950" height="1124" alt="fig02_commands_v5_rads2_page-0001" src="https://github.com/user-attachments/assets/351d4ee5-9e15-4b17-be22-a77a5d7a1cb3" />
+
+
 [fig02_commands_v5_rads2.pdf](https://github.com/user-attachments/files/32490205/fig02_commands_v5_rads2.pdf)
 
 
