@@ -13,7 +13,8 @@ In this section, the dynamics of the hexarotor depicted in **Figure 1** are mode
 
 [dinamica_hexa3.pdf](https://github.com/user-attachments/files/32489715/dinamica_hexa3.pdf)
 
-<img width="1537" height="1023" alt="img106" src="https://github.com/user-attachments/assets/28d1aaa2-4f2a-48ae-9cf3-d1a617083896" />
+<img width="5528" height="3915" alt="dinamica_hexa3_pages-to-jpg-0001" src="https://github.com/user-attachments/assets/5a04ffcb-dc9e-4a79-b67d-890c4c5388da" />
+
 
 *Figure 1: Coaxial hexarotor vehicle dynamics configuration.*
 
@@ -32,7 +33,8 @@ The proposed control strategy follows a cascade architecture consisting of an ou
 [Quadri_Victor_combination_PID_R2025a_CE_v3.drawio.pdf](https://github.com/user-attachments/files/32489719/Quadri_Victor_combination_PID_R2025a_CE_v3.drawio.pdf)
 
 
-![Classic Control Diagram](ruta/a/tu/diagrama-control.png)
+<img width="2929" height="1175" alt="Quadri_Victor_combination_PID_R2025a_CE_v3 drawio_page-0001" src="https://github.com/user-attachments/assets/2385212c-69f6-456e-a35b-9e4b9985d9fa" />
+
 *Figure 2: Classic flight control strategies proposed for the UAV.*
 
 ### 3.2. Neural Controller
@@ -41,6 +43,9 @@ The proposed controller is implemented as an SNN within the NEF using the Nengo 
 **Figure 3** presents the proposed  visualizes the resulting neural flight-control architecture based on the reduced model
 
 [Digrama_UAV_dinamyc_ZXTheta-YPhi-3-1.pdf](https://github.com/user-attachments/files/32489812/Digrama_UAV_dinamyc_ZXTheta-YPhi-3-1.pdf)
+
+<img width="8483" height="3967" alt="Digrama_UAV_dinamyc_ZXTheta-YPhi-3-1_page-0001" src="https://github.com/user-attachments/assets/14ba6aaa-6912-4557-94c9-4c37b09dffa2" />
+
 
 *Figure 3: The diagram is structured to show translation subsystems, as well as the orientations of the UAV, in a neural format. Each subsystem consists of interconnected neural networks that perform specific transformations for state-space representation and control law calculations. The flow of information is indicated by arrows, with cyan-colored arrows highlighting the dynamic couplings between the subsystems.*
 
