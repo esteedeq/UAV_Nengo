@@ -153,3 +153,5 @@ The quantitative comparison between the two control strategies was conducted usi
 3. **Correlation coefficient ($\rho_{\mathrm{SNN,cls}}$):** Quantifies the structural similarity between the SNN-based and classical controller signals.
 
 > **Note:** While $\rho_{\mathrm{SNN,cls}}$ evaluates the structural similarity between the SNN and classical outputs, RMSE and ISE measure the tracking error with respect to the desired reference trajectory.
+>
+> Run Hexa_code_completly.py in path: Nengo/Integracion_3subsistemas. After run plots to generate position, orientacion and inputs’ plots
