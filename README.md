@@ -13,7 +13,7 @@ In this section, the dynamics of the hexarotor depicted in **Figure 1** are mode
 
 [dinamica_hexa3.pdf](https://github.com/user-attachments/files/32489715/dinamica_hexa3.pdf)
 
-![Coaxial Hexarotor Dynamics](ruta/a/tu/fig-hexarotor.png?raw=true)
+[Uploading Quadri_Victor_combination_PID_R2025a_CE_v3.drawio.pdf…]()
 *Figure 1: Coaxial hexarotor vehicle dynamics configuration.*
 
 To facilitate neural encoding, analysis, and control design, the vehicle dynamics are decomposed into altitude, longitudinal, lateral, and directional subsystems. The translational and rotational equations of motion are first derived using the Newton–Euler formulation and subsequently mapped into an SNN-based representation implemented within the Nengo framework. 
