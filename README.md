@@ -13,7 +13,8 @@ In this section, the dynamics of the hexarotor depicted in **Figure 1** are mode
 
 [dinamica_hexa3.pdf](https://github.com/user-attachments/files/32489715/dinamica_hexa3.pdf)
 
-[Uploading Quadri_Victor_combination_PID_R2025a_CE_v3.drawio.pdf…]()
+<img width="1537" height="1023" alt="img106" src="https://github.com/user-attachments/assets/28d1aaa2-4f2a-48ae-9cf3-d1a617083896" />
+
 *Figure 1: Coaxial hexarotor vehicle dynamics configuration.*
 
 To facilitate neural encoding, analysis, and control design, the vehicle dynamics are decomposed into altitude, longitudinal, lateral, and directional subsystems. The translational and rotational equations of motion are first derived using the Newton–Euler formulation and subsequently mapped into an SNN-based representation implemented within the Nengo framework. 
@@ -29,6 +30,7 @@ The proposed control strategy follows a cascade architecture consisting of an ou
 **Figure 2** presents the proposed classic flight control strategies based on the reduced system modeling derived in Section 2. These controllers are used to stabilize and conduct three-dimensional trajectory tracking of the Hexarotor.
 
 [Quadri_Victor_combination_PID_R2025a_CE_v3.drawio.pdf](https://github.com/user-attachments/files/32489719/Quadri_Victor_combination_PID_R2025a_CE_v3.drawio.pdf)
+
 
 ![Classic Control Diagram](ruta/a/tu/diagrama-control.png)
 *Figure 2: Classic flight control strategies proposed for the UAV.*
