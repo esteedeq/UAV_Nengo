@@ -30,7 +30,7 @@ The proposed control strategy follows a cascade architecture consisting of an ou
 ### 3.1. Classic Controllers
 **Figure 2** presents the proposed classic flight control strategies based on the reduced system modeling derived in Section 2. These controllers are used to stabilize and conduct three-dimensional trajectory tracking of the Hexarotor.
 
-[Quadri_Victor_combination_PID_R2025a_CE_v3.drawio.pdf](https://github.com/user-attachments/files/32489719/Quadri_Victor_combination_PID_R2025a_CE_v3.drawio.pdf)
+[MATLAB_Classic_flight _control.pdf](https://github.com/user-attachments/files/32489719/Quadri_Victor_combination_PID_R2025a_CE_v3.drawio.pdf)
 
 
 <img width="2929" height="1175" alt="Quadri_Victor_combination_PID_R2025a_CE_v3 drawio_page-0001" src="https://github.com/user-attachments/assets/2385212c-69f6-456e-a35b-9e4b9985d9fa" />
@@ -42,7 +42,7 @@ The proposed controller is implemented as an SNN within the NEF using the Nengo 
 
 **Figure 3** presents the proposed  visualizes the resulting neural flight-control architecture based on the reduced model
 
-[Digrama_UAV_dinamyc_ZXTheta-YPhi-3-1.pdf](https://github.com/user-attachments/files/32489812/Digrama_UAV_dinamyc_ZXTheta-YPhi-3-1.pdf)
+[Nengo_neural_flight _control.pdf](https://github.com/user-attachments/files/32489812/Digrama_UAV_dinamyc_ZXTheta-YPhi-3-1.pdf)
 
 <img width="8483" height="3967" alt="Digrama_UAV_dinamyc_ZXTheta-YPhi-3-1_page-0001" src="https://github.com/user-attachments/assets/14ba6aaa-6912-4557-94c9-4c37b09dffa2" />
 
@@ -141,7 +141,7 @@ Comparison of translational positions and attitude angles.
 * **MATLAB/Simulink:** Solid blue (`—`)
 * **SNN/Nengo:** Solid red (`—`)
 
-[fig01_states_v5_rad.pdf](https://github.com/user-attachments/files/32490202/fig01_states_v5_rad.pdf)
+[Closed-loop_states.pdf](https://github.com/user-attachments/files/32490202/fig01_states_v5_rad.pdf)
 
 <img width="925" height="1124" alt="fig01_states_v5_rad_page-0001" src="https://github.com/user-attachments/assets/7ab596bb-09cb-4d4f-909c-33d5d97584ce" />
 
@@ -153,7 +153,7 @@ Total thrust $u$, virtual translational commands $u_x$ and $u_y$, and normalized
 <img width="950" height="1124" alt="fig02_commands_v5_rads2_page-0001" src="https://github.com/user-attachments/assets/351d4ee5-9e15-4b17-be22-a77a5d7a1cb3" />
 
 
-[fig02_commands_v5_rads2.pdf](https://github.com/user-attachments/files/32490205/fig02_commands_v5_rads2.pdf)
+[Control_commands.pdf](https://github.com/user-attachments/files/32490205/fig02_commands_v5_rads2.pdf)
 
 
 ---
